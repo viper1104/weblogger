@@ -200,6 +200,11 @@ export default class WebLogger extends EventEmitter {
 		this.updateSelectedData();
 		
 		const el = document.createElement('div');
+		el.className = 'log-filter';
+		el.style.width = '100%';
+		el.style.height = '100%';
+		el.style.pointerEvents = 'none';
+		el.style.zIndex = '1000000';
 		document.body.appendChild(el);
 		ReactDOM.render(<LogFilter logger={this} />, el);
 	}

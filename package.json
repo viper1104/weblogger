@@ -2,11 +2,12 @@
   "name": "weblogger",
   "version": "1.0.0",
   "homepage": "https://github.com/viper1104/weblogger",
-  "main": "index.js",
+  "main": "dist/web-logger.min.js",
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "precommit": "npm run build"
   },
   "author": "Oleg Koltashov",
   "license": "MIT",
