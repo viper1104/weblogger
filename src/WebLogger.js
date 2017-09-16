@@ -204,6 +204,7 @@ export default class WebLogger extends EventEmitter {
 		el.style.width = '100%';
 		el.style.height = '100%';
 		el.style.pointerEvents = 'none';
+		el.style.position = 'absolute';
 		el.style.zIndex = '1000000';
 		document.body.appendChild(el);
 		ReactDOM.render(<LogFilter logger={this} />, el);
