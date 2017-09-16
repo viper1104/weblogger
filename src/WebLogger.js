@@ -203,6 +203,8 @@ export default class WebLogger extends EventEmitter {
 		el.className = 'log-filter';
 		el.style.width = '100%';
 		el.style.height = '100%';
+		el.style.top = '0';
+		el.style.left = '0';
 		el.style.pointerEvents = 'none';
 		el.style.position = 'absolute';
 		el.style.zIndex = '1000000';

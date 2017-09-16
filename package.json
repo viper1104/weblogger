@@ -1,6 +1,6 @@
 {
   "name": "weblogger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/viper1104/weblogger",
   "main": "dist/web-logger.min.js",
   "scripts": {
