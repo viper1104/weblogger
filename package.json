@@ -1,0 +1,48 @@
+{
+  "name": "weblogger",
+  "version": "1.0.0",
+  "homepage": "https://github.com/viper1104/weblogger",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "prepublish": "npm run build"
+  },
+  "author": "Oleg Koltashov",
+  "license": "MIT",
+  "keywords": [
+    "logger",
+    "console",
+    "debug",
+    "log"
+  ],
+  "bugs": {
+    "url": "https://github.com/viper1104/weblogger/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:viper1104/weblogger.git"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2017-object-entries": "^0.0.4",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "path": "^0.12.7",
+    "postcss-loader": "^2.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.6"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "ms": "^2.0.0",
+    "randomcolor": "^0.5.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}

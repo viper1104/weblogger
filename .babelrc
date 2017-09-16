@@ -1,0 +1,17 @@
+{
+  "presets": [
+	"react",
+	["env", {
+	  "targets": {
+		"browsers": ["> 0%"]
+	  },
+	  "modules": false,
+	  "loose": true,
+	  "useBuiltIns": false,
+	  "debug": false
+	}]
+  ],
+  "plugins": [
+	"transform-es2017-object-entries"
+  ]
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        .content {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Please, open console!
+    </h1>
+    <div class="content">
+        <button class="show-web-logger-button" onclick="window.logger.showLogFilter()">show logger</button>
+        <button class="show-web-logger-button" onclick="window.logger.hideLogFilter()">hide logger</button>
+
+        <div class="text">
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+            example content, example content, example content, example content, example content, example content,
+        </div>
+    </div>
+    <script src="/logger/dist/web-logger.min.js"></script>
+
+    <script>
+        window.logger = new WebLogger({
+	        nameSpaces: [
+	        	'logname:1', 'logname:2', 'logname:3', 'logname:4', 'logname:5',
+                'logname:6', 'logname:7', 'logname:8', 'logname:9', 'logname:10',
+                'logname:11', 'logname:12', 'logname:13', 'logname:14', 'logname:15',
+		        'logname:16', 'logname:17', 'logname:18', 'logname:19', 'logname:20',
+            ]
+        });
+
+        setInterval(function() {
+	        logger.debug('logname:2', 'Debug: Log Level 2!');
+
+	        logger.warn('logname:7', 'Warn: Log Level 7!');
+        }, 500);
+
+        setInterval(function() {
+	        logger.debug('logname:5', 'Debug: Log Level 5!');
+	        logger.debug('logname:6', 'Debug: Log Level 6!', {test: 123}, [1, 2, 3], new Date(), [new Date()], 1, 1.2);
+	        if (Math.random() > 0.5) {
+		        logger.debug('logname:6', 'Debug: Log Level 6!');
+            }
+        }, 100);
+
+        setInterval(function() {
+	        logger.error('logname:2', 'Error: Log Level 2!');
+        }, 2000);
+
+        setInterval(function() {
+        	for(var i = 1; i <= 20; i++) {
+		        logger.info('logname:' + i, 'Info: Log Level ' + i + '!');
+            }
+        }, 5000);
+
+        logger.error('logname:1', 'Error: Log Level 1!');
+
+        logger.debug('logname:3', 'Debug: Log Level 3!');
+    </script>
+</body>
+</html>
