@@ -1,5 +1,9 @@
 # Web Logger
 
+![weblogger](https://i.imgur.com/1CDgjKe.png)
+
+[Demo](https://viper1104.github.io/weblogger/examples/index.html)
+
 ## Install
 
     npm install weblogger --save
