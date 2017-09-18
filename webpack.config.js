@@ -32,6 +32,7 @@ module.exports = function (env) {
 		output: {
 			path: __dirname + '/dist',
 			filename: outputFile,
+			libraryTarget: "umd",
 		},
 		module: {
 			rules: [
