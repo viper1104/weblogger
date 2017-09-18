@@ -13,7 +13,7 @@
 ### Init
 
 ```js
-const WebLogger = require('weblogger');
+import WebLogger from 'weblogger';
 
 const LogName = {
 	LOG_NAME_1: 'log-name-1',
