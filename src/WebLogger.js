@@ -8,19 +8,20 @@ import LogLevel from './enum/LogLevel';
 import LoggerEvent from './enum/LoggerEvent';
 
 export default class WebLogger extends EventEmitter {
-	
+
 	constructor(opt = {}) {
 		super();
-		const {nameSpaces = [], storageKey = 'web-logger', disabledColors = false} = opt;
-		
+		const {nameSpaces = [], storageKey = 'web-logger', disabledColors = false, defaultLogLevel = LogLevel.ERROR} = opt;
+
 		this._storageKey = storageKey;
+		this._defaultLogLevel = defaultLogLevel;
 		this._console = this.createConsole();
 		this._nameSpaces = nameSpaces;
 		this._logLevels = [LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARN, LogLevel.ERROR];
 		this._currentLogLevels = {};
 		this._numberSelectedRows = {};
 		this._numberSelectedAllRows = 0;
-		
+
 		this._logLevelColors = {
 			[LogLevel.DEBUG]: '#888888',
 			[LogLevel.INFO]: '#000',
@@ -31,10 +32,10 @@ export default class WebLogger extends EventEmitter {
 			&& navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/);
 		this._colors = {};
 		this._times = {};
-		
+
 		this.init();
 	}
-	
+
 	error(...args) {
 		const nameSpace = args.shift();
 		if (this.isLogLevelSet(nameSpace, LogLevel.ERROR)) {
@@ -42,7 +43,7 @@ export default class WebLogger extends EventEmitter {
 			this._console.error(...args);
 		}
 	}
-	
+
 	warn(...args) {
 		const nameSpace = args.shift();
 		if (this.isLogLevelSet(nameSpace, LogLevel.WARN)) {
@@ -50,7 +51,7 @@ export default class WebLogger extends EventEmitter {
 			this._console.warn(...args);
 		}
 	}
-	
+
 	info(...args) {
 		const nameSpace = args.shift();
 		if (this.isLogLevelSet(nameSpace, LogLevel.INFO)) {
@@ -58,7 +59,7 @@ export default class WebLogger extends EventEmitter {
 			this._console.info(...args);
 		}
 	}
-	
+
 	debug(...args) {
 		const nameSpace = args.shift();
 		if (this.isLogLevelSet(nameSpace, LogLevel.DEBUG)) {
@@ -66,9 +67,9 @@ export default class WebLogger extends EventEmitter {
 			this._console.debug(...args);
 		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------------------------
-	
+
 	decorate(nameSpace, args, logLevel) {
 		const color = this._colors[nameSpace];
 		const prevTime = this._times[nameSpace + logLevel];
@@ -92,13 +93,13 @@ export default class WebLogger extends EventEmitter {
 		template += ' %c%s';
 		return [template, colorStr, nameSpace, textColorStr, ...args, colorStr, timeStr];
 	}
-	
+
 	//------------------------------------------------------------------------------------------------------------------
-	
+
 	toggleValue(data) {
 		const {nameSpace, logLevel} = data;
 		let currentLogLevel = this._currentLogLevels[nameSpace];
-		
+
 		if (nameSpace === -1) {
 			if (logLevel === LogLevel.ALL) {
 				//toggle all
@@ -134,20 +135,20 @@ export default class WebLogger extends EventEmitter {
 			this._currentLogLevels[nameSpace] = currentLogLevel;
 		}
 		localStorage.setItem(this._storageKey, JSON.stringify(this._currentLogLevels));
-		
+
 		this.updateSelectedData();
-		
+
 		this.emit(LoggerEvent.CURRENT_LOG_LEVELS_CHANGED);
 	}
-	
+
 	showLogFilter() {
 		this.emit(LoggerEvent.SHOW_LOG_FILTER);
 	}
-	
+
 	hideLogFilter() {
 		this.emit(LoggerEvent.HIDE_LOG_FILTER);
 	}
-	
+
 	updateColors() {
 		const nameSpaces = this._nameSpaces;
 		nameSpaces.forEach((nameSpace, index) => {
@@ -158,11 +159,11 @@ export default class WebLogger extends EventEmitter {
 			});
 		});
 	}
-	
+
 	updateSelectedData() {
 		this._numberSelectedRows = {};
 		this._numberSelectedAllRows = 0;
-		
+
 		Object.values(this._currentLogLevels).forEach((currentLogLevel) => {
 			if (this.hasFlag(currentLogLevel, LogLevel.ALL)) {
 				this._numberSelectedAllRows += 1;
@@ -177,9 +178,9 @@ export default class WebLogger extends EventEmitter {
 			})
 		})
 	}
-	
+
 	//------------------------------------------------------------------------------------------------------------------
-	
+
 	init() {
 		this._currentLogLevels = {};
 		try {
@@ -196,9 +197,15 @@ export default class WebLogger extends EventEmitter {
 		} catch (e) {
 			console.error(e);
 		}
+		for (let i = 0, len = this._nameSpaces.length; i < len; i++) {
+			let nameSpace = this._nameSpaces[i];
+			if (typeof this._currentLogLevels[nameSpace] === 'undefined') {
+				this._currentLogLevels[nameSpace] = this._defaultLogLevel;
+			}
+		}
 		this.updateColors();
 		this.updateSelectedData();
-		
+
 		const el = document.createElement('div');
 		el.className = 'log-filter';
 		el.style.width = '100%';
@@ -211,11 +218,11 @@ export default class WebLogger extends EventEmitter {
 		document.body.appendChild(el);
 		ReactDOM.render(<LogFilter logger={this} />, el);
 	}
-	
+
 	hasFlag(currentFlag, flags) {
 		return (currentFlag & flags) === flags;
 	}
-	
+
 	isLogLevelSet(nameSpace, logLevel, currentLogLevels) {
 		if (!currentLogLevels) {
 			currentLogLevels = this._currentLogLevels;
@@ -223,53 +230,53 @@ export default class WebLogger extends EventEmitter {
 		const currentLogLevel = currentLogLevels[nameSpace] || LogLevel.NONE;
 		return this.hasFlag(currentLogLevel, logLevel);
 	}
-	
+
 	isSelectedRows(logLevel) {
 		return this._numberSelectedRows[logLevel] === this._nameSpaces.length;
 	}
-	
+
 	isSelectedAllRows() {
 		return this._numberSelectedAllRows === this._nameSpaces.length;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------------------------
-	
+
 	getNameSpaces() {
 		return this._nameSpaces;
 	}
-	
+
 	getLogLevels() {
 		return this._logLevels;
 	}
-	
+
 	getCurrentLogLevels() {
 		return this._currentLogLevels;
 	}
-	
+
 	getNumberSelectedRows() {
 		return this._numberSelectedRows;
 	}
-	
+
 	getNumberSelectedAllRows() {
 		return this._numberSelectedAllRows;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------------------------
-	
+
 	createConsole() {
 		return {
 			error: (...args) => {
 				console.error(...args);
 			},
-			
+
 			warn: (...args) => {
 				console.warn(...args);
 			},
-			
+
 			info: (...args) => {
 				console.info(...args);
 			},
-			
+
 			debug: (...args) => {
 				console.debug(...args);
 			}
